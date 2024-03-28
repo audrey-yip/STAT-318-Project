@@ -22,6 +22,7 @@ sapply(youtube.dat, class)
 
 # create binary variable for official channel
 youtube.dat$official_channel <- factor(ifelse(youtube.dat$channel_title == "AAACollege", "Official", "Not Official"))
+#youtube.dat$official_channel <- factor(ifelse(youtube.dat$channel_title == "WellesleyCollege", "Official", "Not Official"))
 official_channel_count <- table(youtube.dat$official_channel); official_channel_count
 # 36/300 are published by official account
 
@@ -142,6 +143,72 @@ youtube_data_cleaned %>% ggplot(aes(x=official_channel, y=like_proportion)) +
        x='official_channel',
        y='comment_proportion \n')
 
+# Visualization (without outliers) -----------------
+
+#------------duration versus like/comment proportion-----------------
+#### group by official_channel
+# Scatter plot exploring the relationship between like_proportion and duration, colored by official_channel
+ggplot(youtube_data_cleaned, aes(x = duration, y = like_proportion, color = official_channel)) +
+  geom_point() +
+  geom_smooth(method = 'lm', se = FALSE) +
+  labs(title = 'Relationship between Like Proportion and Duration',
+       x = 'Duration',
+       y = 'Like Proportion') +
+  scale_color_manual(values = c('Official' = 'blue', 'Not Official' = 'red'))
+
+# Scatter plot exploring the relationship between comment_proportion and duration, colored by official_channel
+ggplot(youtube_data_cleaned, aes(x = duration, y = comment_proportion, color = official_channel)) +
+  geom_point() +
+  geom_smooth(method = 'lm', se = FALSE) +
+  labs(title = 'Relationship between Comment Proportion and Duration',
+       x = 'Duration',
+       y = 'Comment Proportion') +
+  scale_color_manual(values = c('Official' = 'blue', 'Not Official' = 'red'))
+
+#### group by category
+# Scatter plot exploring the relationship between like_proportion and duration, colored by category
+ggplot(youtube_data_cleaned, aes(x = duration, y = like_proportion, color = category_id)) +
+  geom_point() +
+  geom_smooth(method = 'lm', se = FALSE) +
+  labs(title = 'Relationship between Like Proportion and Duration',
+       x = 'Duration',
+       y = 'Like Proportion')
+
+# Scatter plot exploring the relationship between comment_proportion and duration, colored by category
+ggplot(youtube_data_cleaned, aes(x = duration, y = comment_proportion, color = category_id)) +
+  geom_point() +
+  geom_smooth(method = 'lm', se = FALSE) +
+  labs(title = 'Relationship between Comment Proportion and Duration',
+       x = 'Duration',
+       y = 'Comment Proportion')
+
+#------------subscriber count versus like/comment proportion-----------------
+#### group by category
+# Scatter plot exploring the relationship between like_proportion and subscriber count, colored by category
+ggplot(youtube_data_cleaned, aes(x = channel_subscriber_count, y = like_proportion, color = category_id)) +
+  geom_point() +
+  geom_smooth(method = 'lm', se = FALSE) +
+  labs(title = 'Relationship between Like Proportion and Channel Subscriber Count',
+       x = 'Duration',
+       y = 'Like Proportion')
+
+# Scatter plot exploring the relationship between comment_proportion and subscriber count, colored by category
+ggplot(youtube_data_cleaned, aes(x = channel_subscriber_count, y = comment_proportion, color = category_id)) +
+  geom_point() +
+  geom_smooth(method = 'lm', se = FALSE) +
+  labs(title = 'Relationship between Comment Proportion and Channel Subscriber Count',
+       x = 'Duration',
+       y = 'Comment Proportion')
+       
+       
+# Boxplot exploring the distribution of subscriber_count by official_channel
+ggplot(youtube_data_cleaned, aes(x = official_channel, y = channel_subscriber_count, fill = official_channel)) +
+  geom_boxplot() +
+  labs(title = 'Distribution of Subscriber Count by Official Channel',
+       x = 'Official Channel',
+       y = 'Subscriber Count') +
+  scale_fill_manual(values = c('blue', 'red'))
+                            
 
 
 
