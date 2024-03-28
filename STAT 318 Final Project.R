@@ -67,7 +67,7 @@ summaryStats <- summary(youtube.dat); summaryStats
 # get unique categories
 youtube.dat %>% tabyl(category_id)%>% adorn_totals(c('row', 'col'))
 
-# linearity checks (with outliers) -----------------
+# linearity checks (without outliers) -----------------
 youtube.dat %>% ggplot(aes(x=duration, y=like_proportion)) + 
   geom_point() +
   geom_smooth(method='lm', se=FALSE) +
